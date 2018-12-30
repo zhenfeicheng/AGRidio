@@ -1,0 +1,199 @@
+apply plugin: 'com.android.application'
+
+def releaseTime() {
+    return new Date().format("yyyy-MM-dd", TimeZone.getTimeZone("UTC"))
+}
+
+// Manifest version information!
+def versionMajor = 1
+def versionMinor = 0
+def versionPatch = 2
+def versionBuild = 0 // bump for dogfood builds, public betas, etc.
+def buildTime = new Date().format("yyyy-MM-dd HH:mm", TimeZone.getTimeZone("GMT+8:00"))
+
+def wechatAppId = "wx0a74babb5d25de74"
+def leancloudAppId = "tppfzdpnnb99brtkh71phf5mkyba5t5wv8kw2n6tmy9wu45v"
+def leancloudAppKey = "f8s6xeebxw1qbqupgh8rjtuqb2nk1xfighsnwfl0zi71hcul"
+
+def appDownloadUrl = "http://fir.im/sky31radio"
+android {
+    compileSdkVersion 25
+    buildToolsVersion '27.0.3'
+
+    defaultConfig {
+        applicationId "com.project.sky31radio"
+        minSdkVersion 14
+        targetSdkVersion 21
+        versionCode versionMajor * 10000 + versionMinor * 1000 + versionPatch * 100 + versionBuild
+        versionName "${versionMajor}.${versionMinor}.${versionPatch}"
+
+        // dex突破65535的限制
+        multiDexEnabled true
+        //useJack = false
+
+        manifestPlaceholders = [LEANCLOUD_CHANNEL_ID: "default"]
+
+        renderscriptTargetApi 21
+        renderscriptSupportModeEnabled true
+
+        manifestPlaceholders = [LEANCLOUD_CHANNEL_ID: "default"]
+        buildConfigField "String", "WECHAT_APP_ID", "\"${wechatAppId}\""
+        buildConfigField "String", "LEANCLOUD_APP_ID", "\"${leancloudAppId}\""
+        buildConfigField "String", "LEANCLOUD_APP_KEY", "\"${leancloudAppKey}\""
+
+        buildConfigField "String", "APP_DOWNLOAD_URL", "\"${appDownloadUrl}\""
+        buildConfigField "String", "BUILD_TIME", "\"${buildTime}\""
+
+        //极光推送需要
+        ndk {
+            //选择要添加的对应 cpu 类型的 .so 库。
+            abiFilters 'armeabi', 'armeabi-v7a', 'arm64-v8a', 'x86', 'x86_64'
+            // 还可以添加 'x86', 'x86_64', 'mips', 'mips64'
+        }
+
+        manifestPlaceholders = [
+                JPUSH_PKGNAME: applicationId,
+                JPUSH_APPKEY : "8a8ad51f99dba1820907cbb3", //JPush 上注册的包名对应的 Appkey.
+                JPUSH_CHANNEL: "developer-default", //暂时填写默认值即可.
+        ]
+        javaCompileOptions { annotationProcessorOptions { includeCompileClasspath = true } }
+    }
+    dexOptions {
+        javaMaxHeapSize "2048M"
+    }
+    signingConfigs {
+        debug {
+            // No debug config
+        }
+
+        release {
+        }
+    }
+    buildTypes {
+        release {
+            minifyEnabled false
+//            shrinkResources false
+//            minifyEnabled false
+//            zipAlignEnabled false
+//            applicationVariants.all { variant ->
+//                variant.outputs.each { output ->
+//                    def outputFile = output.outputFile
+//                    if (outputFile != null && outputFile.name.endsWith('.apk')) {
+//                        File outputDirectory = new File(outputFile.parent);
+//                        def fileName = "sky31_radio_v${defaultConfig.versionName}_${releaseTime()}_${variant.productFlavors[0].name}.apk"
+//                        output.outputFile = new File(outputDirectory, fileName)
+//                    }
+//                }
+//            }
+//            signingConfig signingConfigs.release
+        }
+        debug {
+//            applicationIdSuffix '.dev'
+//            versionNameSuffix '-dev'
+//
+//            shrinkResources false
+//            minifyEnabled false
+//            zipAlignEnabled false
+//
+//            signingConfig signingConfigs.debug
+        }
+    }
+//    productFlavors {
+//        meizu{}
+//        tencent{}
+//        xiaomi {}
+//        wandoujia {}
+//        sky31{}
+//        fir{}
+//    }
+//
+//    productFlavors.all {
+//        flavor -> flavor.manifestPlaceholders = [LEANCLOUD_CHANNEL_ID: name]
+//    }
+    packagingOptions {
+        exclude 'META-INF/services/javax.annotation.processing.Processor'
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+    lintOptions {
+        abortOnError false
+        checkReleaseBuilds false
+    }
+
+    //leanCloud
+    //为了解决部分第三方库重复打包了META-INF的问题
+    packagingOptions{
+        exclude 'META-INF/LICENSE.txt'
+        exclude 'META-INF/NOTICE.txt'
+    }
+
+}
+//configurations {
+//    all*.exclude group: 'com.android.support', module: 'support-v13'
+//}
+dependencies {
+    implementation fileTree(dir: 'libs', include: ['*.jar'])
+
+    compileOnly 'com.squareup.dagger:dagger-compiler:1.2.2'
+    implementation 'com.squareup.dagger:dagger:1.2.2'
+    implementation 'com.android.support:support-v4:21.0.3'
+    implementation 'com.android.support:appcompat-v7:21.0.3'
+    implementation 'com.android.support:cardview-v7:21.0.3'
+    implementation 'com.jakewharton.timber:timber:2.5.0'
+    implementation 'com.squareup.okhttp:okhttp:2.0.0'
+    implementation 'com.squareup.okhttp:okhttp-urlconnection:2.2.0'
+    implementation 'com.squareup.retrofit:retrofit:1.9.0'
+    implementation 'com.google.code.gson:gson:2.3'
+    implementation 'com.jakewharton:butterknife:5.1.1'
+    implementation 'com.squareup.picasso:picasso:2.3.2'
+    implementation 'io.reactivex:rxandroid:0.24.0'
+    implementation 'com.android.support:recyclerview-v7:21.0.3'
+    implementation 'com.jpardogo.materialtabstrip:library:1.0.8'
+    api project(':DiscreateSeekBar')
+    implementation 'org.michaelevans.colorart:library:0.0.2'
+    implementation 'com.readystatesoftware.systembartint:systembartint:1.0.4'
+    implementation('de.psdev.licensesdialog:licensesdialog:1.6.0') {
+        exclude module: 'support-v4'
+    }
+    api project(':leancloud')
+
+    implementation 'cn.jiguang.sdk:jpush:3.1.6'
+    implementation 'cn.jiguang.sdk:jcore:1.2.5'  // 此处以JCore 1.2.5 版本为例。
+
+    //leanCloud
+    implementation ('com.android.support:support-v4:21.0.3')
+
+    // LeanCloud 基础包
+    implementation ('cn.leancloud.android:avoscloud-sdk:4.7.8')
+
+    // 推送与即时通讯需要的包
+    implementation ('cn.leancloud.android:avoscloud-push:4.7.8@aar'){transitive = true}
+
+    // Android 混合推送需要的包
+//    implementation ('cn.leancloud.android:avoscloud-mixpush:4.7.8@aar'){transitive = true}
+
+    // LeanCloud 用户反馈包
+    implementation ('cn.leancloud.android:avoscloud-feedback:4.7.8@aar')
+
+    // LeanCloud 应用内搜索包
+    implementation ('cn.leancloud.android:avoscloud-search:4.7.8@aar')
+}
+//File propFile = file('signing.properties');
+//if (propFile.exists()) {
+//    def Properties props = new Properties()
+//    props.load(new FileInputStream(propFile))
+//
+//    if (props.containsKey('STORE_FILE') && props.containsKey('STORE_PASSWORD') &&
+//            props.containsKey('KEY_ALIAS') && props.containsKey('KEY_PASSWORD')) {
+//        android.signingConfigs.release.storeFile = file(props['STORE_FILE'])
+//        android.signingConfigs.release.storePassword = props['STORE_PASSWORD']
+//        android.signingConfigs.release.keyAlias = props['KEY_ALIAS']
+//        android.signingConfigs.release.keyPassword = props['KEY_PASSWORD']
+//    } else {
+//        android.buildTypes.release.signingConfig = null
+//    }
+//} else {
+//    android.buildTypes.release.signingConfig = null
+//}
+

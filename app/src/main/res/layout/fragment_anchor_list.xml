@@ -1,0 +1,12 @@
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools" android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context="com.project.sky31radio.ui.fragment.AnchorListFragment">
+    <com.project.sky31radio.view.ContentLoaderView
+        android:id="@id/content_loader"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"/>
+    <include layout="@layout/toolbar_shadow"
+        android:layout_height="@dimen/shadow_height"
+        android:layout_width="match_parent"/>
+</FrameLayout>

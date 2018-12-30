@@ -1,0 +1,47 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">AG电子音乐</string>
+    <string name="action_settings">软件设置</string>
+    <string name="title_activity_settings">软件设置</string>
+    <string name="tpl_program_count">%d 个节目</string>
+    <string name="tpl_played_count">播放:%d</string>
+    <string name="action_exit">退出</string>
+    <string name="title_activity_search">节目搜索</string>
+    <string name="action_search">搜索节目</string>
+    <string name="hint_action_search">输入关键字</string>
+    <string name="empty_article">没有节目稿</string>
+    <string name="loading_article">加载节目稿中…</string>
+
+    <string name="title_share_program">分享到</string>
+    <string name="tpl_share_program" formatted="false">我在 %s 听到一个不错的节目\"%s\"
+你也来听听吧:%s</string>
+    <string name="tpl_wx_share_description" formatted="false">我正在%s聆听%s的声音</string>
+
+    <string name="pref_build_time">buildTime</string>
+    <string name="pref_feedback">feedback</string>
+    <string name="pref_donate">donate</string>
+    <string name="pref_license">license</string>
+    <string name="pref_check_version">checkVersion</string>
+
+    <string name="alipay_account">czf158@gmail.com</string>
+
+    <string name="msg_donate">已复制支付宝账号:%s</string>
+    <string name="pref_allow_new_program_notification">allow_new_program_notification</string>
+    <string name="loading_text">加载中…</string>
+    <string name="loading_error_text">出现错误—</string>
+    <string name="btn_error_retry">再试试</string>
+    <string name="btn_empty_retry">再试试</string>
+    <string name="empty_message">什么也没有</string>
+    <string name="network_error">请检查您的网络</string>
+    <string name="http_error">请求过程中出现错误</string>
+    <string name="conversion_error">数据解析出错</string>
+    <string name="unexpected_error">发生未知错误</string>
+    <string name="tpl_version">当前版本:1.1</string>
+    <string name="msg_checking_version">检查中…</string>
+    <string name="msg_no_new_version">当前以为最新版本，暂无新版本更新</string>
+    <string name="msg_new_version_found" formatted="false">新版本:%s(Build %d):
+
+%s</string>
+    <string name="title_new_version_found">发现新版本</string>
+    <string name="btn_dialog_update">更新</string>
+</resources>
